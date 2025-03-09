@@ -1,0 +1,6 @@
+2025-03-09|Breaking News: Market Crash|https://example.com/market-crash|5|market-crash.jpg
+2025-03-08|Tech Giant Unveils New AI|https://example.com/new-ai|7|new-ai.jpg
+2025-03-07|Political Turmoil in Europe|https://example.com/europe-politics|6|europe-politics.jpg
+2025-03-06|Scientists Discover New Element|https://example.com/new-element|4|new-element.jpg
+2025-03-05|Sports Legend Announces Retirement|https://example.com/sports-retirement|3|sports-retirement.jpg
+2025-03-04|Climate Change Report Released|https://example.com/climate-report|8|climate-report.jpg

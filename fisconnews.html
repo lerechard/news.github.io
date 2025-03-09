@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Site</title>
+    <script defer src="script.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .header { background: #333; color: white; padding: 15px; text-align: center; }
+        .nav { display: flex; justify-content: center; gap: 15px; }
+        .nav a { color: white; text-decoration: none; }
+        .articles { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; padding: 20px; }
+        .article { cursor: pointer; }
+        .article img { width: 100%; height: auto; }
+        .article h2 { margin: 10px 0; }
+        .small-articles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 768px) {
+            .nav { display: block; text-align: center; }
+            .articles { display: block; }
+            .small-articles { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="https://bbq.calpoly.cc">Home</a>
+            <a href="https://bbq.calpoly.cc">World</a>
+            <a href="https://bbq.calpoly.cc">Politics</a>
+            <a href="https://bbq.calpoly.cc">Business</a>
+        </nav>
+    </header>
+    <main>
+        <section class="articles" id="articles"></section>
+    </main>
+    <script>
+        async function fetchArticles() {
+            const response = await fetch('articles.txt');
+            const text = await response.text();
+            const articles = text.split('\n').map(line => {
+                const [date, title, link, readTime, image] = line.split('|');
+                return { date, title, link, readTime, image };
+            }).sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+
+            const articlesContainer = document.getElementById('articles');
+            articlesContainer.innerHTML = '';
+
+            if (articles.length > 0) {
+                const mainArticle = articles[0];
+                articlesContainer.innerHTML += `
+                    <div class="article" onclick="location.href='${mainArticle.link}'">
+                        <img src="${mainArticle.image}" alt="${mainArticle.title}">
+                        <h2>${mainArticle.title}</h2>
+                        <p>${mainArticle.date} • ${mainArticle.readTime} min read</p>
+                    </div>`;
+                
+                const smallArticles = document.createElement('div');
+                smallArticles.className = 'small-articles';
+                articles.slice(1).forEach(article => {
+                    smallArticles.innerHTML += `
+                        <div class="article" onclick="location.href='${article.link}'">
+                            <img src="${article.image}" alt="${article.title}">
+                            <h2>${article.title}</h2>
+                            <p>${article.date} • ${article.readTime} min read</p>
+                        </div>`;
+                });
+                articlesContainer.appendChild(smallArticles);
+            }
+        }
+
+        fetchArticles();
+    </script>
+</body>
+</html>
