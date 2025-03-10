@@ -27,8 +27,8 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const pathParts = window.location.pathname.split("/").filter(part => part);
-            const articleName = pathParts.length > 1 ? pathParts[pathParts.length - 1] : null;
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleName = urlParams.get("article");
             if (articleName) {
                 fetchArticle(articleName);
             }
