@@ -1,6 +1,6 @@
-2025-03-08|meeeewo test|https://example.com/meow|7|placeholder.png
-2025-03-07|mewo|https://example.com/meow|6|placeholder.png
-2025-03-06|tust|https://example.com/meow|4|placeholder.png
-2025-03-05|test articl|https://example.com/meow|3|placeholder.png
-2025-03-04|Test Article|https://example.com/meow|8|placeholder.png
-2025-03-10|What is Fiscon News?|https://news.fiscon.cc/read?article=test_article|2|placeholder.png
+2025-03-08|meeeewo test|https://example.com/meow|7|images/placeholder.png
+2025-03-07|mewo|https://example.com/meow|6|images/placeholder.png
+2025-03-06|tust|https://example.com/meow|4|images/placeholder.png
+2025-03-05|test articl|https://example.com/meow|3|images/placeholder.png
+2025-03-04|Test Article|https://example.com/meow|8|images/placeholder.png
+2025-03-10|What is Fiscon News?|https://news.fiscon.cc/read?article=test_article|2|images/placeholder.png
