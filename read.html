@@ -11,7 +11,6 @@
         .meta { font-size: 14px; color: gray; text-align: center; }
         .content { margin-top: 20px; }
         img { width: 100%; height: auto; margin: 10px 0; }
-        input { display: block; margin: 20px auto; }
         .articles-listing { margin-top: 40px; font-size: 14px; color: gray; }
     </style>
 </head>
@@ -24,30 +23,38 @@
     <img id="secondImage" src="" alt="Second Image">
     <div class="content" id="content2"></div>
     
-    <input type="file" id="fileInput" accept="application/json">
-    <button onclick="loadArticle()">Load Article</button>
-    
     <div class="articles-listing" id="articlesListing"></div>
     
     <script>
-        function loadArticle() {
-            const fileInput = document.getElementById('fileInput').files[0];
-            if (!fileInput) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const articleData = JSON.parse(event.target.result);
-                document.getElementById('articleTitle').innerText = articleData.title;
-                document.getElementById('articleMeta').innerText = `By ${articleData.author} • ${articleData.readTime} min read`;
-                document.getElementById('articleDate').innerText = `Published on: ${articleData.date}`;
-                document.getElementById('headerImage').src = articleData.headerImage;
-                document.getElementById('content1').innerText = articleData.content1;
-                document.getElementById('secondImage').src = articleData.secondImage;
-                document.getElementById('content2').innerText = articleData.content2;
-                
-                generateArticlesListing(articleData);
-            };
-            reader.readAsText(fileInput);
+        document.addEventListener("DOMContentLoaded", function() {
+            const pathParts = window.location.pathname.split("/").filter(part => part);
+            const articleName = pathParts.length > 1 ? pathParts[pathParts.length - 1] : null;
+            if (articleName) {
+                fetchArticle(articleName);
+            }
+        });
+
+        function fetchArticle(articleName) {
+            fetch(`articles/${articleName}.json`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Article not found");
+                    }
+                    return response.json();
+                })
+                .then(articleData => {
+                    document.getElementById('articleTitle').innerText = articleData.title;
+                    document.getElementById('articleMeta').innerText = `By ${articleData.author} • ${articleData.readTime} min read`;
+                    document.getElementById('articleDate').innerText = `Published on: ${articleData.date}`;
+                    document.getElementById('headerImage').src = articleData.headerImage;
+                    document.getElementById('content1').innerText = articleData.content1;
+                    document.getElementById('secondImage').src = articleData.secondImage;
+                    document.getElementById('content2').innerText = articleData.content2;
+                    generateArticlesListing(articleData);
+                })
+                .catch(error => {
+                    document.body.innerHTML = `<h1>Article Not Found</h1>`;
+                });
         }
         
         function generateArticlesListing(articleData) {
