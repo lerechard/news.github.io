@@ -1,48 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article Submission</title>
     <script defer src="submit.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: auto; }
-        label, input, textarea { display: block; width: 100%; margin-bottom: 10px; }
-        input[type="file"] { border: none; }
-        button { padding: 10px; background: blue; color: white; border: none; cursor: pointer; }
-        .articles-listing { margin-top: 20px; font-size: 14px; color: gray; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label,
+        input,
+        textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            border: none;
+        }
+
+        button {
+            padding: 10px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .articles-listing {
+            margin-top: 20px;
+            font-size: 14px;
+            color: gray;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Submit an Article</h1>
         <label>Article Title</label>
         <input type="text" id="title">
-        
+
         <label>Author Name</label>
         <input type="text" id="author">
-        
+
         <label>Read Time (minutes)</label>
         <input type="number" id="readTime">
-        
+
         <label>Header Image</label>
         <input type="file" id="headerImage">
-        
+
         <label>Article Content (First Section)</label>
         <textarea id="content1" rows="5"></textarea>
-        
+
         <label>Second Image</label>
         <input type="file" id="secondImage">
-        
+
         <label>Article Content (Second Section)</label>
         <textarea id="content2" rows="5"></textarea>
-        
+
         <button onclick="compileArticle()">Compile Article</button>
-        
+
         <div class="articles-listing" id="articlesListing"></div>
     </div>
-    
+
     <script>
         function compileArticle() {
             const title = document.getElementById('title').value;
@@ -53,7 +85,7 @@
             const secondImage = document.getElementById('secondImage').files[0]?.name || '';
             const content2 = document.getElementById('content2').value;
             const date = new Date().toISOString().split('T')[0];
-            
+
             const articleData = {
                 title,
                 author,
@@ -64,20 +96,21 @@
                 content2,
                 date
             };
-            
+
             const blob = new Blob([JSON.stringify(articleData, null, 2)], { type: 'application/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = `${title.replace(/\s+/g, '_')}.json`;
             a.click();
-            
+
             generateArticlesListing(articleData);
         }
-        
+
         function generateArticlesListing(articleData) {
             const listing = `${articleData.date}|${articleData.title}|article.html|${articleData.readTime}|${articleData.headerImage}`;
             document.getElementById('articlesListing').innerText = `Articles.txt entry:\n${listing}`;
         }
     </script>
 </body>
+
 </html>

@@ -1,44 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article Viewer</title>
     <script defer src="display.js"></script>
     <style>
-        head { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        .header { background: #333; color: white; padding: 15px; text-align: center; }
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
-        h1 { text-align: center; }
-        .meta { font-size: 14px; color: gray; text-align: center; }
-        .content { margin-top: 20px; }
-        img { width: 100%; height: auto; margin: 10px 0; display: none; }
-        .nav { display: flex; justify-content: center; gap: 15px; }
-        .nav a { color: white; text-decoration: none; } 
+        .header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .meta {
+            font-size: 14px;
+            color: gray;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+        }
     </style>
-        <header class="header">
-            <nav class="nav">
-                <a href="https://news.fiscon.cc">Home</a>
-                <a href="https://news.fiscon.cc/photos">Gallery</a>
-                <a href="https://news.fiscon.cc/contact">Contact</a>
-                <a href="https://news.fiscon.cc/about">About</a>
-                
-            </nav>
-        </header>
+    <header class="header">
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/photos">Gallery</a>
+            <a href="/contact">Contact</a>
+            <a href="/about">About</a>
+
+        </nav>
+    </header>
 </head>
+
 <body>
 
-    
+
     <h1 id="articleTitle">Article Title</h1>
-    <p class="meta" id="articleMeta"></p>
-    <p class="meta" id="articleDate"></p>
-    <img id="headerImage" src="" alt="Header Image">
-    <div class="content" id="content1"></div>
-    <img id="secondImage" src="" alt="Second Image">
-    <div class="content" id="content2"></div>
-    
+    <div class="container">
+        <p class="meta" id="articleMeta"></p>
+        <p class="meta" id="articleDate"></p>
+        <img id="headerImage" src="" alt="Header Image">
+        <div class="content" id="content1"></div>
+        <img id="secondImage" src="" alt="Second Image">
+        <div class="content" id="content2"></div>
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const articleName = urlParams.get("article");
             if (articleName) {
@@ -47,7 +91,7 @@
         });
 
         function fetchArticle(articleName) {
-            fetch(`articles/${articleName}.json`)
+            fetch(`/articles/${articleName}.json`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Article not found");
@@ -59,21 +103,21 @@
                     document.getElementById('articleTitle').innerText = articleData.title;
                     document.getElementById('articleMeta').innerText = `By ${articleData.author} • ${articleData.readTime} min read`;
                     document.getElementById('articleDate').innerText = `Published on: ${articleData.date}`;
-                    
+
                     if (articleData.headerImage) {
                         const headerImg = document.getElementById('headerImage');
                         headerImg.src = articleData.headerImage;
                         headerImg.style.display = 'block';
                     }
-                    
+
                     document.getElementById('content1').innerText = articleData.content1;
-                    
+
                     if (articleData.secondImage) {
                         const secondImg = document.getElementById('secondImage');
                         secondImg.src = articleData.secondImage;
                         secondImg.style.display = 'block';
                     }
-                    
+
                     document.getElementById('content2').innerText = articleData.content2;
                 })
                 .catch(error => {
@@ -82,4 +126,5 @@
         }
     </script>
 </body>
+
 </html>
