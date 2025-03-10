@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Viewer</title>
+    <script defer src="display.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
+        h1 { text-align: center; }
+        .meta { font-size: 14px; color: gray; text-align: center; }
+        .content { margin-top: 20px; }
+        img { width: 100%; height: auto; margin: 10px 0; }
+        input { display: block; margin: 20px auto; }
+        .articles-listing { margin-top: 40px; font-size: 14px; color: gray; }
+    </style>
+</head>
+<body>
+    <h1 id="articleTitle">Article Title</h1>
+    <p class="meta" id="articleMeta"></p>
+    <p class="meta" id="articleDate"></p>
+    <img id="headerImage" src="" alt="Header Image">
+    <div class="content" id="content1"></div>
+    <img id="secondImage" src="" alt="Second Image">
+    <div class="content" id="content2"></div>
+    
+    <input type="file" id="fileInput" accept="application/json">
+    <button onclick="loadArticle()">Load Article</button>
+    
+    <div class="articles-listing" id="articlesListing"></div>
+    
+    <script>
+        function loadArticle() {
+            const fileInput = document.getElementById('fileInput').files[0];
+            if (!fileInput) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const articleData = JSON.parse(event.target.result);
+                document.getElementById('articleTitle').innerText = articleData.title;
+                document.getElementById('articleMeta').innerText = `By ${articleData.author} • ${articleData.readTime} min read`;
+                document.getElementById('articleDate').innerText = `Published on: ${articleData.date}`;
+                document.getElementById('headerImage').src = articleData.headerImage;
+                document.getElementById('content1').innerText = articleData.content1;
+                document.getElementById('secondImage').src = articleData.secondImage;
+                document.getElementById('content2').innerText = articleData.content2;
+                
+                generateArticlesListing(articleData);
+            };
+            reader.readAsText(fileInput);
+        }
+        
+        function generateArticlesListing(articleData) {
+            const listing = `${articleData.date}|${articleData.title}|article.html|${articleData.readTime}|${articleData.headerImage}`;
+            document.getElementById('articlesListing').innerText = `Articles.txt entry:\n${listing}`;
+        }
+    </script>
+</body>
+</html>
