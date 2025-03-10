@@ -10,11 +10,23 @@
         h1 { text-align: center; }
         .meta { font-size: 14px; color: gray; text-align: center; }
         .content { margin-top: 20px; }
-        img { width: 100%; height: auto; margin: 10px 0; }
-        .articles-listing { margin-top: 40px; font-size: 14px; color: gray; }
+        img { width: 100%; height: auto; margin: 10px 0; display: none; }
+        .header { background: #333; color: white; padding: 15px; text-align: center; }
+        .nav { display: flex; justify-content: center; gap: 15px; }
+        .nav a { color: white; text-decoration: none; }
     </style>
 </head>
 <body>
+    <header class="header">
+        <nav class="nav">
+            <a href="https://news.fiscon.cc">Home</a>
+            <a href="https://news.fiscon.cc/photos">Gallery</a>
+            <a href="https://news.fiscon.cc/contact">Contact</a>
+            <a href="https://news.fiscon.cc/about">About</a>
+            
+        </nav>
+    </header>
+    
     <h1 id="articleTitle">Article Title</h1>
     <p class="meta" id="articleMeta"></p>
     <p class="meta" id="articleDate"></p>
@@ -22,8 +34,6 @@
     <div class="content" id="content1"></div>
     <img id="secondImage" src="" alt="Second Image">
     <div class="content" id="content2"></div>
-    
-    <div class="articles-listing" id="articlesListing"></div>
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -43,23 +53,30 @@
                     return response.json();
                 })
                 .then(articleData => {
+                    document.title = articleData.title;
                     document.getElementById('articleTitle').innerText = articleData.title;
                     document.getElementById('articleMeta').innerText = `By ${articleData.author} • ${articleData.readTime} min read`;
                     document.getElementById('articleDate').innerText = `Published on: ${articleData.date}`;
-                    document.getElementById('headerImage').src = articleData.headerImage;
+                    
+                    if (articleData.headerImage) {
+                        const headerImg = document.getElementById('headerImage');
+                        headerImg.src = articleData.headerImage;
+                        headerImg.style.display = 'block';
+                    }
+                    
                     document.getElementById('content1').innerText = articleData.content1;
-                    document.getElementById('secondImage').src = articleData.secondImage;
+                    
+                    if (articleData.secondImage) {
+                        const secondImg = document.getElementById('secondImage');
+                        secondImg.src = articleData.secondImage;
+                        secondImg.style.display = 'block';
+                    }
+                    
                     document.getElementById('content2').innerText = articleData.content2;
-                    generateArticlesListing(articleData);
                 })
                 .catch(error => {
                     document.body.innerHTML = `<h1>Article Not Found</h1>`;
                 });
-        }
-        
-        function generateArticlesListing(articleData) {
-            const listing = `${articleData.date}|${articleData.title}|article.html|${articleData.readTime}|${articleData.headerImage}`;
-            document.getElementById('articlesListing').innerText = `Articles.txt entry:\n${listing}`;
         }
     </script>
 </body>
