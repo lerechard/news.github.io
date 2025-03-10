@@ -6,7 +6,21 @@
     <title>Article Viewer</title>
     <script defer src="display.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .header { background: #333; color: white; padding: 15px; text-align: center; }
+        .nav { display: flex; justify-content: center; gap: 15px; }
+        .nav a { color: white; text-decoration: none; }
+        .articles { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; padding: 20px; }
+        .article { cursor: pointer; }
+        .article img { width: 100%; height: auto; }
+        .article h2 { margin: 10px 0; }
+        .small-articles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 768px) {
+            .nav { display: block; text-align: center; }
+            .articles { display: block; }
+            .small-articles { display: block; }
+        }
+        /* body { font-family: Arial, sans-serif; margin: 0; padding: 20px; max-width: 800px; margin: auto; }
         .header { background: #333; color: white; padding: 15px; text-align: center; }
         h1 { text-align: center; }
         .meta { font-size: 14px; color: gray; text-align: center; }
@@ -14,7 +28,7 @@
         img { width: 100%; height: auto; margin: 10px 0; display: none; }
         .header { background: #333; color: white; padding: 15px; text-align: center; }
         .nav { display: flex; justify-content: center; gap: 15px; }
-        .nav a { color: white; text-decoration: none; }
+        .nav a { color: white; text-decoration: none; } */
     </style>
 </head>
 <body>
